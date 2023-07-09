@@ -3,6 +3,10 @@
   Complete project details at https://RandomNerdTutorials.com/ttgo-lora32-sx1276-arduino-ide/
 *********/
 
+// MQTT
+// #include <PubSubClient.h>
+#include<WiFi.h>
+
 //Libraries for LoRa
 #include <SPI.h>
 #include <LoRa.h>
@@ -32,13 +36,52 @@
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
+// Wifi & setup
+const char *SSID = "LETICIA E PIETRA";
+const char *PWD = "bcc12010410";
+
+WiFiClient wifiClient;
+// PubSubClient mqttClient(wifiClient);
+// char * mqttServer = "broker.hivemq.com"
+// int mqttPort = 1883;
+const uint16_t port = 8080;
+const char * host = "192.168.0.15";
+
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST);
 
 String LoRaData;
+int wifi_connected = 0;
 
 void setup() { 
+
+  // Connect to wifi
+  Serial.print("Connecting to wifi: ");
+  WiFi.begin(SSID, PWD);
+  Serial.println(SSID);
+  while(WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(".");
+    delay(500);
+  }
+  wifi_connected = 1;
+  Serial.print("Connected with IP: ");
+  Serial.println(WiFi.localIP());
+
+  // WiFiClient client;
+
+  if (!wifiClient.connect(host, port)) {
+    Serial.print("Connection to ");
+    Serial.print(host);
+    Serial.println(" failed. Retrying..");
+    delay(1000);
+    return
+
+  // Setup MQTT
+  // mqttClient.setServer(mqttServer, mqttPort);
+  // mqttClient.setCallback(back)
+
   //initialize Serial Monitor
-  Serial.begin(115200);
+  Serial.begin(9600);
   
   //reset OLED display via software
   pinMode(OLED_RST, OUTPUT);
@@ -75,20 +118,23 @@ void setup() {
   display.setCursor(0,10);
   display.println("LoRa Initializing OK!");
   display.display();  
-}
+}}
 
 void loop() {
-
+  // Wifi socket
   //try to parse packet
   int packetSize = LoRa.parsePacket();
+  
   if (packetSize) {
     //received a packet
+    if (wifi_connected) Serial.print("wifi connected. ");
     Serial.print("Received packet ");
 
     //read packet
     while (LoRa.available()) {
       LoRaData = LoRa.readString();
       Serial.print(LoRaData);
+      wifiClient.print(LoRaData);
     }
 
     //print RSSI of packet

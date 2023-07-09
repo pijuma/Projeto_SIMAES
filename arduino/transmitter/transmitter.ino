@@ -3,6 +3,10 @@
   Complete project details at https://RandomNerdTutorials.com/ttgo-lora32-sx1276-arduino-ide/
 *********/
 
+//Wifi
+#include<esp_wifi.h>
+#include<WiFi.h>
+
 //Libraries for LoRa
 #include <SPI.h>
 #include <LoRa.h>
@@ -34,9 +38,11 @@
 
 #define WATER_SENSOR_PIN 13
 
+// Wifi setup
+const char *SSID = "LETICIA E PIETRA";
+const char *PWD = "bcc12010410";
+
 void do_stuff();
-
-
 
 
 //packet counter
@@ -49,7 +55,6 @@ int curr_interval = 0;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST);
 
 void setup() {
-  // variaveis para a contagem do fluxo
   
 
   //initialize Serial Monitor
@@ -103,6 +108,7 @@ void loop() {
     curr_interval = millis();
 
     do_stuff();
+    counter = 0;
   }
 
   if (voltage != previousValue)
@@ -110,6 +116,7 @@ void loop() {
     if(voltage > previousValue)
     {
       // do_stuff();
+      //Serial.print("+");
       
       counter++;
     }
