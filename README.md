@@ -1,3 +1,7 @@
+# SIMAES <br> 
+
+SIMAES (Sistema Inteligente de Monitoramento de Água por Emissão de Sinais), projeto realizado para a disciplina de Eletrônica para Computação do curso da USP - São Carlos <br>
+
 # Motivação <br> 
 
 A partir de um benchmarking realizado com uma dos grandes nomes das indústrias, Procter & Gamble, chegamos a um problema responsável por gerar diversas interrupções na linha de produção: **o gasto elevado para a medição de fluxo de água nas tubulações subterrâneas**, o que contribui com o desperdício de água industrial e reduz drasticamente o nível de produção, uma vez que, ocorrendo problemas de vazamento, não é possível encontrar o local com agilidade, demorando de 1 a 2 semanas para resolvê-lo. <br> 
