@@ -11,9 +11,11 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 # Componentes <br>
 
 1. Sensor de fluxo de água via pulsos;
-2. Raspberry Pi 3 Versão 1.2 modelo D;
-3. ESP32 LoRa wifi;
-4. FILTER PUMP MODEL 603 (Krystal Clear)
+  ![sensor](https://github.com/pijuma/Projeto_SIMAES/blob/main/sensor.jpg)
+
+3. Raspberry Pi 3 Versão 1.2 modelo D;
+4. ESP32 LoRa wifi;
+5. FILTER PUMP MODEL 603 (Krystal Clear)
 <br>
 
 # Design <br> 
