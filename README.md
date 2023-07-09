@@ -1,6 +1,6 @@
 # SIMAES <br> 
 
-SIMAES (Sistema Inteligente de Monitoramento de Água por Emissão de Sinais), projeto realizado para a disciplina de Eletrônica para Computação do curso da USP - São Carlos <br>
+SIMAES (Sistema Inteligente de Monitoramento de Água por Emissão de Sinais), projeto realizado para a disciplina de Eletrônica do curso de Ciência da Computação da USP - São Carlos <br>
 
 # Motivação <br> 
 
