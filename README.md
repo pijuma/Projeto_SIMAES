@@ -18,6 +18,13 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 
 # Design <br> 
 
+# Comunicação <br> 
+
+**LoRa-Rasps**  
+
+
+**Wifi-Rasp-ESP receptor** 
+
 # Metodologia <br>
 
 - Elaboração do roteiro e viabilidade do projeto;
