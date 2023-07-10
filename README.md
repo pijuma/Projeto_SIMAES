@@ -21,6 +21,9 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 
 # Design <br> 
 
+# Resumo
+Foram utilizados dois microcontroladores ESP32 LoRa WiFi, um sendo o transmissor e o outro o receptor, e um micro-computador de placa única Raspberry Pi 3. O transmissor recebe os sinais do sensor de água através da tecnologia LoRa (Long Range), um método de comunicação por rádio frequência. Após conectar os microcontroladores em uma rede WiFi, o ESP32 transmissor passa os dados para o receptor através do WiFi. Conetando também o Raspberry, é possível transferir os dados do receptor para ele através de um protocolo de comunicação entre dispositivos MQTT (Message Queuing Telemetry Transport). Para conectar a Raspberry a um computador, é utilizado o protocolo de rede SSH (Secure Shell), que permite gerenciar os dados de forma remota. Essas informações do fluxo de água são armazenadas em um site, que pode ser acessado por qualquer dispositivo concetado a essa rede Wi-Fi.
+
 # Comunicação <br> 
 
 **LoRa-Rasps**  
