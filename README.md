@@ -15,8 +15,9 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 <img src="https://github.com/pijuma/Projeto_SIMAES/blob/main/sensor.jpg" width="300" height = "400">
 
 2. Raspberry Pi 3 Versão 1.2 modelo D;
-3. ESP32 LoRa wifi;
-4. FILTER PUMP MODEL 603 (Krystal Clear)
+3. ESP32 LoRa WiFi;
+4. <img src="" width="300" height="400">
+5. FILTER PUMP MODEL 603 (Krystal Clear)
 <br>
 
 # Design <br> 
