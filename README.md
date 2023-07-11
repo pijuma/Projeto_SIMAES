@@ -16,7 +16,9 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 
 2. Raspberry Pi 3 Versão 1.2 modelo D;
 3. ESP32 LoRa WiFi;
-4. <img src="" width="300" height="400">
+   
+<img src="https://github.com/pijuma/Projeto_SIMAES/blob/main/ESP32LoRa32V3.jpg" width="300" height="300">
+
 5. FILTER PUMP MODEL 603 (Krystal Clear)
 <br>
 
