@@ -12,7 +12,7 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 
 1. Sensor de fluxo de água via pulsos;
 
-<img src="https://github.com/pijuma/Projeto_SIMAES/blob/main/sensor.jpg" width="300" height = "400">
+<img src="(https://github.com/pijuma/Projeto_SIMAES/blob/main/seawatersensor.jpg" width="300" height = "300">
 
 2. ESP32 LoRa WiFi;
    
