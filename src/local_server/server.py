@@ -14,8 +14,20 @@ FORMAT = 'utf-8' # format for encoding
 DISCONNECT_MESSAGE = '!DISCONNECT' # fixed disconnect message
 
 
+#
+# WEB_SERVER = "192.168.0.7"
+# WEB_PORT = 12345
+
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
+
+# web_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# web_server.connect((WEB_SERVER, WEB_PORT))
+
+# def send_msg(msg):
+#     msg = msg.encode(FORMAT)
+
+#     web_server.send(msg)
 
 def handle_client(conn : socket, addr : str):
     print(f"New conection from {addr}")
@@ -35,6 +47,12 @@ def handle_client(conn : socket, addr : str):
             connected = False
 
         print(f"[{addr}]: {msg}")
+        # try:
+        #     send_msg(msg)
+        # except Exception as err:
+        #     print(err)
+
+        
     
     conn.close()
 

@@ -41,11 +41,12 @@ const char *SSID = "LETICIA E PIETRA";
 const char *PWD = "bcc12010410";
 
 WiFiClient wifiClient;
+WiFiClient client;
 // PubSubClient mqttClient(wifiClient);
 // char * mqttServer = "broker.hivemq.com"
 // int mqttPort = 1883;
-const uint16_t port = 8080;
-const char * host = "192.168.0.15";
+const uint16_t port = 60000;
+const char * host = "192.168.0.7 ";
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RST);
 
@@ -53,6 +54,8 @@ String LoRaData;
 int wifi_connected = 0;
 
 void setup() { 
+  //initialize Serial Monitor
+  Serial.begin(9600);
 
   // Connect to wifi
   Serial.print("Connecting to wifi: ");
@@ -67,21 +70,7 @@ void setup() {
   Serial.print("Connected with IP: ");
   Serial.println(WiFi.localIP());
 
-  // WiFiClient client;
-
-  if (!wifiClient.connect(host, port)) {
-    Serial.print("Connection to ");
-    Serial.print(host);
-    Serial.println(" failed. Retrying..");
-    delay(1000);
-    return
-
-  // Setup MQTT
-  // mqttClient.setServer(mqttServer, mqttPort);
-  // mqttClient.setCallback(back)
-
-  //initialize Serial Monitor
-  Serial.begin(9600);
+  
   
   //reset OLED display via software
   pinMode(OLED_RST, OUTPUT);
@@ -118,9 +107,29 @@ void setup() {
   display.setCursor(0,10);
   display.println("LoRa Initializing OK!");
   display.display();  
-}}
+
+
+
+  Serial.println("Connecting to socket..");
+
+  while (!client.connect(host, port)) {
+    Serial.print("Connection to ");
+    Serial.print(host);
+    Serial.println(" failed. Retrying..");
+    delay(1000);
+  }
+  // client.print("ESP 32 conectada! ");
+
+  // Setup MQTT
+  // mqttClient.setServer(mqttServer, mqttPort);
+  // mqttClient.setCallback(back)
+  Serial.print("Connection to ");
+  Serial.print(port);
+  Serial.println(" successfully established");
+}
 
 void loop() {
+  
   // Wifi socket
   //try to parse packet
   int packetSize = LoRa.parsePacket();
@@ -134,7 +143,7 @@ void loop() {
     while (LoRa.available()) {
       LoRaData = LoRa.readString();
       Serial.print(LoRaData);
-      wifiClient.print(LoRaData);
+      client.print(LoRaData);
     }
 
     //print RSSI of packet
