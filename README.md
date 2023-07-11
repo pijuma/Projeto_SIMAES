@@ -1,6 +1,6 @@
 # SIMAES <br> 
 
-SIMAES (Sistema Inteligente de Monitoramento de Água por Emissão de Sinais), projeto realizado para a disciplina de Eletrônica do curso de Ciência da Computação da USP - São Carlos <br>
+SIMAES (Sistema Inteligente de Monitoramento de Água por Emissão de Sinais), projeto realizado para a disciplina de Eletrônicapara Computação do curso de Ciência da Computação da USP - São Carlos <br>
 
 # Motivação <br> 
 
@@ -14,12 +14,11 @@ Atualmente, como citado anteriormente, há uma solução disponível no mercado 
 
 <img src="https://github.com/pijuma/Projeto_SIMAES/blob/main/sensor.jpg" width="300" height = "400">
 
-2. Raspberry Pi 3 Versão 1.2 modelo D;
-3. ESP32 LoRa WiFi;
+2. ESP32 LoRa WiFi;
    
 <img src="https://github.com/pijuma/Projeto_SIMAES/blob/main/ESP32LoRa32V3.jpg" width="300" height="300">
 
-5. FILTER PUMP MODEL 603 (Krystal Clear)
+3. FILTER PUMP MODEL 603 (Krystal Clear)
 <br>
 
 # Design <br> 
