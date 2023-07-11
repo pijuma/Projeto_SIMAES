@@ -31,6 +31,10 @@ Foram utilizados dois microcontroladores ESP32 LoRa WiFi, um sendo o transmissor
 
 **Wifi-Rasp-ESP receptor** 
 
+# Site <br> 
+
+Fizemos a montagem de um site que mostra onde o circuito estará localizado de acordo com o a planta do ICMC e apresentará as informações como o fluxo de água, passando a quantidade de pulsos. 
+
 # Metodologia <br>
 
 - Elaboração do roteiro e viabilidade do projeto;
