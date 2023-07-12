@@ -12,11 +12,12 @@
         <h2>Sistema Inteligente de Monitoramento de Água por Emissão de Sinais</h2>
     </div>
 
-    <button onclick="getLastUpdate()">Get Last Update</button><br>
-    <button onclick="getRange()">Get Range</button>
+    <button onclick="getLastUpdate()" id="btn_tempo_real">Ver tempo real</button><br>
+    <button onclick="getRange()">Ver histórico</button>
     <input type="date" id="data">
     <input type="time" id="hora_de">
-    <input type="time" id="hora_ate"><br>
+    <input type="time" id="hora_ate">
+    <p id="total">Litros totais: </p>
     <label>Litros por pulso: </label>
     <input id="razao" value="0.0039">
     <div id="main">
@@ -76,13 +77,18 @@
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
-                    for (let i = 0; i < data.length; i += 60) {
-                        let dado = data[i];
-                        let div = document.createElement('p');
-                        div.setAttribute('id', 'elemento');
-                        div.innerHTML = `Data e hora: ${dado.data_hora} <br>
-                                        Vazão: ${(dado.pulsos * razao).toFixed(2)} L/s`;
-                        sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                    let pulsos_totais = 0;
+                    for (let i = 0; i < data.length; i++) {
+                        pulsos_totais += parseFloat(data[i].pulsos);
+                        if (i % 60 == 0) {
+                            let dado = data[i];
+                            let div = document.createElement('p');
+                            div.setAttribute('id', 'elemento');
+                            div.innerHTML = `Data e hora: ${dado.data_hora} <br>
+                                            Vazão: ${(dado.pulsos * razao).toFixed(2)} L/s`;
+                            sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                        }
+                        document.querySelector("#total").innerHTML = `Litros totais = ${(pulsos_totais * razao).toFixed(2)} L`;
                     }
                 })
                 .catch((error) => {
