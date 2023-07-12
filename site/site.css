@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    background-color:antiquewhite;
+}
+
+#main {
+    display: flex;
+}
+
+#titulo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#historico {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 88vh;
+    background-color:rgb(255, 208, 148);
+    overflow-y: scroll;
+}
+
+#imagem {
+    width: 180vh;
+}
+
+#display {
+    top: 60vh;
+    left: 70vh;
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    background-color: azure;
+}
