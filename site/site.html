@@ -20,20 +20,18 @@
     <label>Litros por pulso: </label>
     <input id="razao" value="0.0039">
     <div id="main">
-        <div id="historico">
-            <h3 id="sinais">Sinais recebidos</h3>
-        </div>
-        <div>
-            <img src="simaes.jpg" id="imagem">
-        </div>
+        <div id="historico"></div>
+        <div><img src="simaes.jpg" id="imagem"></div>
     </div>
-    <div id="display">oifofowjfewo</div>
+    <div id="display"></div>
 
     <script>
         function getLastUpdate() {
-            let sinais = document.querySelector("#sinais");
+            let sinais = document.createElement('h3');
+            sinais.setAttribute('id', 'sinais');
             sinais.innerHTML = "Sinais recebidos atuais";
-            // apagar todos os dados registrados
+            document.querySelector("#historico").textContent = "";
+            document.querySelector("#historico").appendChild(sinais);
             let razao = parseFloat(document.querySelector("#razao").value);
 
             setInterval(() => {
@@ -42,9 +40,11 @@
                     .then((data) => {
                         console.log(data);
                         let div = document.createElement('p');
+                        div.setAttribute('id', 'elemento');
                         div.innerHTML = `Data e hora: ${data.data_hora} <br>
-                                        Vazão: ${data.pulsos * razao} L/s`;
+                                        Vazão: ${(data.pulsos * razao).toFixed(2)} L/s`;
                         sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                        document.querySelector("#display").innerHTML = `Vazão: ${(data.pulsos * razao).toFixed(2)} L/s`;
                     })
                     .catch((error) => {
                         console.error("Error:", error);
@@ -53,9 +53,12 @@
         }
 
         function getRange() {
-            let sinais = document.querySelector("#sinais");
-            sinais.innerHTML = "Sinais recebidos no tempo especificado";
-            // apagar todos os dados registrados
+            let sinais = document.createElement('h3');
+            sinais.setAttribute('id', 'sinais');
+            sinais.innerHTML = "Histórico de sinais no tempo especificado";
+            document.querySelector("#historico").textContent = "";
+            document.querySelector("#historico").appendChild(sinais);
+            let razao = parseFloat(document.querySelector("#razao").value);
 
             let data = document.querySelector("#data").value;
             let hora_de = document.querySelector("#hora_de").value;
@@ -63,13 +66,21 @@
             fetch("http://192.168.0.7:5500/range", {
                 method: "GET",
                 headers: {
-                    Data: "2023-07-12",
-                    Range: "09:00:00-17:00:00",
+                    Data: data,
+                    Range: hora_de + "-" + hora_ate,
                 },
             })
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
+                    for (let i = 0; i < data.length; i += 60) {
+                        let dado = data[i];
+                        let div = document.createElement('p');
+                        div.setAttribute('id', 'elemento');
+                        div.innerHTML = `Data e hora: ${dado.data_hora} <br>
+                                        Vazão: ${(dado.pulsos * razao).toFixed(2)} L/s`;
+                        sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                    }
                 })
                 .catch((error) => {
                     console.error("Error:", error);
