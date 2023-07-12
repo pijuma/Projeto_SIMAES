@@ -11,8 +11,13 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center;   
+}
+#titulo h1 {
+    margin: 5px;
+}
+#titulo h2 {
+    margin: 5px;
 }
 
 #historico {
@@ -42,4 +47,12 @@ body {
 
 #elemento {
     margin: 5px;
+}
+
+#total {
+    margin-top: 0;
+}
+
+#btn_tempo_real {
+    margin-bottom: 10px;
 }
