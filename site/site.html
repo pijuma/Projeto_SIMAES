@@ -26,6 +26,7 @@
     <div id="display"></div>
 
     <script>
+        let refresh;
         function getLastUpdate() {
             let sinais = document.createElement('h3');
             sinais.setAttribute('id', 'sinais');
@@ -34,7 +35,7 @@
             document.querySelector("#historico").appendChild(sinais);
             let razao = parseFloat(document.querySelector("#razao").value);
 
-            setInterval(() => {
+            refresh = setInterval(() => {
                 fetch("http://192.168.0.7:5500/last_update")
                     .then((response) => response.json())
                     .then((data) => {
@@ -53,6 +54,8 @@
         }
 
         function getRange() {
+            if (refresh)
+                clearInterval(refresh);
             let sinais = document.createElement('h3');
             sinais.setAttribute('id', 'sinais');
             sinais.innerHTML = "Histórico de sinais no tempo especificado";
