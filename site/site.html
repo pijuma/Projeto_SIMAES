@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto SIMAES</title>
+    <link rel="stylesheet" type="text/css" href="site.css">
+</head>
+<body>
+    <div id="titulo">
+        <h1>Projeto S.I.M.A.E.S.</h1>
+        <h2>Sistema Inteligente de Monitoramento de Água por Emissão de Sinais</h2>
+    </div>
+
+    <button onclick="getLastUpdate()">Get Last Update</button><br>
+    <button onclick="getRange()">Get Range</button>
+    <input type="date" id="data">
+    <input type="time" id="hora_de">
+    <input type="time" id="hora_ate"><br>
+    <label>Litros por pulso: </label>
+    <input id="razao" value="0.0039">
+    <div id="main">
+        <div id="historico">
+            <h3 id="sinais">Sinais recebidos</h3>
+        </div>
+        <div>
+            <img src="simaes.jpg" id="imagem">
+        </div>
+    </div>
+    <div id="display">oifofowjfewo</div>
+
+    <script>
+        function getLastUpdate() {
+            let sinais = document.querySelector("#sinais");
+            sinais.innerHTML = "Sinais recebidos atuais";
+            // apagar todos os dados registrados
+            let razao = parseFloat(document.querySelector("#razao").value);
+
+            setInterval(() => {
+                fetch("http://192.168.0.7:5500/last_update")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        let div = document.createElement('p');
+                        div.innerHTML = `Data e hora: ${data.data_hora} <br>
+                                        Vazão: ${data.pulsos * razao} L/s`;
+                        sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            }, 2000);
+        }
+
+        function getRange() {
+            let sinais = document.querySelector("#sinais");
+            sinais.innerHTML = "Sinais recebidos no tempo especificado";
+            // apagar todos os dados registrados
+
+            let data = document.querySelector("#data").value;
+            let hora_de = document.querySelector("#hora_de").value;
+            let hora_ate = document.querySelector("#hora_ate").value;
+            fetch("http://192.168.0.7:5500/range", {
+                method: "GET",
+                headers: {
+                    Data: "2023-07-12",
+                    Range: "09:00:00-17:00:00",
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>
