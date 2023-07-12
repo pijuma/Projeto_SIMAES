@@ -35,7 +35,9 @@ Foram utilizados dois microcontroladores ESP32 LoRa WiFi, um sendo o transmissor
 
 # Site <br> 
 
-Fizemos a montagem de um site que mostra onde o circuito estará localizado de acordo com o a planta do ICMC e apresentará as informações como o fluxo de água, passando a quantidade de pulsos. 
+Foi criado um site que tem como objetivo pedir dados de pulso, data e horário via HTTPS, e mostrá-los de forma gráfica. Para tanto, o site mostra onde o circuito estará localizado de acordo com o a planta do ICMC e apresenta as informações como o fluxo de água, passando a quantidade de pulsos. 
+
+Foram implementados 2 métodos diferentes: O que pega o último dado guardado no servidor, calcula a quantidade de vazão em litros por segundos para aquele momento e mostra tanto no display localizado na planta do ICMC, quanto na coluna de dados à esquerda da imagem, de forma contínua. Tal display pode ser movimentado de acordo com o local que foi medido o fluxo de água. O outro método consiste na especificação do dia e do intervalo de horários que se quer analisar, para visualizar os dados em um período mais amplo. Essa visualização é possível por meio da coluna que mostrará os dados por minutos (para não mostrar dados demais, pois os dados são recebidos a cada segundo), e por meio da quantidade de litros totais que se passam no dado intervalo de tempo.
 
 # Metodologia <br>
 
