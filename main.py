@@ -3,14 +3,11 @@ from flask_cors import CORS
 import socket
 import threading
 import json
+import re
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/')
-def landing():
-    return "<h1>vingadores dublado</h1>"
 
 @app.route('/enviar', methods=['GET'])
 def enviar():
@@ -20,73 +17,45 @@ def enviar():
 
 @app.route('/last_update', methods=['GET'])
 def last_update():
-    try:
-        data = get_last_data()[:-1]
-        data = json.loads(data)
-        return data
-
-    except Exception as err:
-        return f"Error: {err}", 200
+    data = get_last_update()
+    if data is None:
+        return jsonify(None)
+    return jsonify(data)
 
 @app.route('/range', methods=['GET'])
-def range():
-    data = request.headers.get("Data")
-    data_filter = filtrar_dados_por_data(data)
-    range_data = request.headers.get("Range")
+def range_data():
+    data = request.headers.get('Data')
+    range = request.headers.get('Range')
+    dados_filtrados = filtrar_dados_por_range(data, range)
+    return jsonify(dados_filtrados)
 
-    range_data = range_data.split("-")
-    initial = range_data[0]
-    final = range_data[1]
+def get_last_update():
+    now = datetime.now()
+    with open('dados.txt', 'r') as arquivo_txt:
+        lines = arquivo_txt.readlines()
+        for line in reversed(lines):
+            dado = json.loads(line)
+            data_hora = datetime.strptime(dado['data_hora'], "%Y-%m-%d %H:%M:%S:%f")
+            diff = now - data_hora
+            if diff.total_seconds() <= 3:
+                return dado
+    return None
 
-    actual_data = []
-    # 'data_hora': '2023-07-12 10:01:38:761274'
-    for datas in data_filter:
-        if is_in_range(datas['data_hora'][11:19], initial, final):
-            actual_data.append(datas)
+def filtrar_dados_por_range(data, range):
+    range_inicio, range_fim = range.split('-')
+    data_inicio = f"{data} {range_inicio}"
+    data_fim = f"{data} {range_fim}"
 
-
-
-    return str(f'{actual_data}')
-    # return (data, range_data)
-    # return json.loads('{"": "", "": "", "": ""}')
-    # return jsonify(data)
-    # return json.loads(data)
-    # data = request.headers.get('Data')
-    # dados_filtrados = filtrar_dados_por_data(data)
-    # return jsonify(dados_filtrados)
-
-def is_in_range(data, initial, final):
-    """11:20:47 09:00:00 12:00:00
-        Tipo de dados que sao chamados.
-        Realizar filtro a partir disto
-    """
-    # Horas
-    print (data, initial, final)
-    if (int(data[0:2]) > int(initial[0:2]) and int(data[0:2]) < int(final[0:2])):
-        return True
-        # Minutos
-    
-
- # TODO filtrar por minutos
-
-    return False
-
-
-def get_last_data():
-    data = ''
-    with open('dados.txt', 'r') as file:
-        for lines in file:
-            pass
-
-        # pega a ultima linha do arquivo (ultimo dado)
-        data = lines
-
-    return data
-
-    
+    dados_filtrados = []
+    with open('dados.txt', 'r') as arquivo_txt:
+        for linha in arquivo_txt:
+            dado = json.loads(linha)
+            if data_inicio <= dado['data_hora'] <= data_fim:
+                dados_filtrados.append(dado)
+    return dados_filtrados
 
 def adicionar_data_hora(dado):
-    data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f%Z")
+    data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f")
     dado['data_hora'] = str(data_hora)
     print("-----------", str(data_hora))
     return dado
@@ -113,7 +82,11 @@ def handle_client(conexao, endereco_cliente):
             break
         dado = {}
 
-        dado['pulsos'] = int(dados_recebidos.split(" ")[1])
+        pulsos_str = dados_recebidos.split(" ")[1]
+        pulsos_num = re.findall('\d+', pulsos_str)
+        if pulsos_num:
+            dado['pulsos'] = int(pulsos_num[0])
+
         dado = adicionar_data_hora(dado)
         dado['endereco_cliente'] = endereco_cliente
 
