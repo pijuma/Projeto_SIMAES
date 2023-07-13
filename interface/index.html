@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto SIMAES</title>
+    <link rel="stylesheet" type="text/css" href="site.css">
+</head>
+<body>
+    <div id="titulo">
+        <h1>Projeto S.I.M.A.E.S.</h1>
+        <h2>Sistema Inteligente de Monitoramento de Água por Emissão de Sinais</h2>
+    </div>
+
+    <button onclick="getLastUpdate()" id="btn_tempo_real">Ver tempo real</button><br>
+    <button onclick="getRange()">Ver histórico</button>
+    <input type="date" id="data">
+    <input type="time" id="hora_de">
+    <input type="time" id="hora_ate">
+    <p id="total">Litros totais: </p>
+    <label>Litros por pulso: </label>
+    <input id="razao" value="0.0039">
+    <div id="main">
+        <div id="historico"></div>
+        <div><img src="simaes.jpg" id="imagem"></div>
+    </div>
+    <div id="display"></div>
+
+    <script>
+        let refresh;
+        function getLastUpdate() {
+            let sinais = document.createElement('h3');
+            sinais.setAttribute('id', 'sinais');
+            sinais.innerHTML = "Sinais recebidos atuais";
+            document.querySelector("#historico").textContent = "";
+            document.querySelector("#historico").appendChild(sinais);
+            let razao = parseFloat(document.querySelector("#razao").value);
+
+            refresh = setInterval(() => {
+                fetch("http://172.20.10.3:5500/last_update")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        let div = document.createElement('p');
+                        div.setAttribute('id', 'elemento');
+                        div.innerHTML = `Data e hora: ${data.data_hora} <br>
+                                        Vazão: ${(data.pulsos * razao).toFixed(2)} L/s`;
+                        sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                        document.querySelector("#display").innerHTML = `Vazão: ${(data.pulsos * razao).toFixed(2)} L/s`;
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            }, 2000);
+        }
+
+        function getRange() {
+            if (refresh)
+                clearInterval(refresh);
+            let sinais = document.createElement('h3');
+            sinais.setAttribute('id', 'sinais');
+            sinais.innerHTML = "Histórico de sinais no tempo especificado";
+            document.querySelector("#historico").textContent = "";
+            document.querySelector("#historico").appendChild(sinais);
+            let razao = parseFloat(document.querySelector("#razao").value);
+
+            let data = document.querySelector("#data").value;
+            let hora_de = document.querySelector("#hora_de").value;
+            let hora_ate = document.querySelector("#hora_ate").value;
+            fetch("http://172.20.10.3:5500/range", {
+                method: "GET",
+                headers: {
+                    Data: data,
+                    Range: hora_de + "-" + hora_ate,
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    let pulsos_totais = 0;
+                    for (let i = 0; i < data.length; i++) {
+                        pulsos_totais += parseFloat(data[i].pulsos);
+                        if (i % 60 == 0) {
+                            let dado = data[i];
+                            let div = document.createElement('p');
+                            div.setAttribute('id', 'elemento');
+                            div.innerHTML = `Data e hora: ${dado.data_hora} <br>
+                                            Vazão: ${(dado.pulsos * razao).toFixed(2)} L/s`;
+                            sinais.parentNode.insertBefore(div, sinais.nextSibling);
+                        }
+                        document.querySelector("#total").innerHTML = `Litros totais = ${(pulsos_totais * razao).toFixed(2)} L`;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>
