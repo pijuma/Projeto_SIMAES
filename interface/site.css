@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    background-color:antiquewhite;
+}
+
+#main {
+    display: flex;
+}
+
+#titulo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+}
+#titulo h1 {
+    margin: 5px;
+}
+#titulo h2 {
+    margin: 5px;
+}
+
+#historico {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 88vh;
+    background-color:rgb(255, 208, 148);
+    overflow-y: scroll;
+}
+
+#imagem {
+    width: 180vh;
+}
+
+#display {
+    top: 55vh;
+    left: 70vh;
+    width: 100px;
+    height: 20px;
+    border-radius: 5px;
+    position: absolute;
+    background-color:beige;
+    text-align: center;
+    padding: 20px;
+}
+
+#elemento {
+    margin: 5px;
+}
+
+#total {
+    margin-top: 0;
+}
+
+#btn_tempo_real {
+    margin-bottom: 10px;
+}
